@@ -1,0 +1,22 @@
+---
+- name: Manage AWS RDS instance
+  hosts: localhost
+  tasks:
+    - name: Create RDS instance
+      vars:
+        rds_instance_name: my-rds-instance
+        rds_instance_engine: mysql
+        rds_instance_class: db.t2.micro
+        rds_instance_username: dbuser
+        rds_instance_password: dbpassword
+      aws_rds:
+        state: present
+        name: "{{ rds_instance_name }}"
+        instance_type: "{{ rds_instance_class }}"
+        engine: "{{ rds_instance_engine }}"
+        username: "{{ rds_instance_username }}"
+        password: "{{ rds_instance_password }}"
+        allocated_storage: 20
+        tags:
+          Name: "{{ rds_instance_name }}"
+      register: rds_instance
